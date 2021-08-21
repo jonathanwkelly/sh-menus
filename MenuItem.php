@@ -3,6 +3,8 @@
 namespace Pingpong\Menus;
 
 use Closure;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
 use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
@@ -43,7 +45,7 @@ class MenuItem implements ArrayableContract
 
     /**
      * The hideWhen callback.
-     * 
+     *
      * @var Closure
      */
     protected $hideWhen;
@@ -68,11 +70,11 @@ class MenuItem implements ArrayableContract
      */
     protected static function setIconAttribute(array $properties)
     {
-        $icon = array_get($properties, 'attributes.icon');
+        $icon = Arr::get($properties, 'attributes.icon');
         if (!is_null($icon)) {
             $properties['icon'] = $icon;
 
-            array_forget($properties, 'attributes.icon');
+            Arr::forget($properties, 'attributes.icon');
 
             return $properties;
         }
@@ -89,7 +91,7 @@ class MenuItem implements ArrayableContract
      */
     protected static function getRandomName(array $attributes)
     {
-        return substr(md5(array_get($attributes, 'title', str_random(6))), 0, 5);
+        return substr(md5(Arr::get($attributes, 'title', Str::random(6))), 0, 5);
     }
 
     /**
@@ -148,10 +150,10 @@ class MenuItem implements ArrayableContract
 
         if (func_num_args() == 3) {
             $arguments = func_get_args();
-            
-            $title = array_get($arguments, 0);
-            $attributes = array_get($arguments, 2);
-            
+
+            $title = Arr::get($arguments, 0);
+            $attributes = Arr::get($arguments, 2);
+
             $properties = compact('title', 'attributes');
         }
 
@@ -180,9 +182,9 @@ class MenuItem implements ArrayableContract
             $arguments = func_get_args();
 
             return $this->add([
-                'route' => [array_get($arguments, 0), array_get($arguments, 2)],
-                'title' => array_get($arguments, 1),
-                'attributes' => array_get($arguments, 3)
+                'route' => [Arr::get($arguments, 0), Arr::get($arguments, 2)],
+                'title' => Arr::get($arguments, 1),
+                'attributes' => Arr::get($arguments, 3)
             ]);
         }
 
@@ -206,9 +208,9 @@ class MenuItem implements ArrayableContract
             $arguments = func_get_args();
 
             return $this->add([
-                'url' => array_get($arguments, 0),
-                'title' => array_get($arguments, 1),
-                'attributes' => array_get($arguments, 2)
+                'url' => Arr::get($arguments, 0),
+                'title' => Arr::get($arguments, 1),
+                'attributes' => Arr::get($arguments, 2)
             ]);
         }
 
@@ -355,7 +357,7 @@ class MenuItem implements ArrayableContract
     {
         $attributes = $this->attributes ? $this->attributes : [];
 
-        array_forget($attributes, ['active', 'icon']);
+        Arr::forget($attributes, ['active', 'icon']);
 
         return HTML::attributes($attributes);
     }
@@ -479,7 +481,7 @@ class MenuItem implements ArrayableContract
      */
     public function getActiveAttribute()
     {
-        return array_get($this->attributes, 'active');
+        return Arr::get($this->attributes, 'active');
     }
 
     /**
@@ -489,7 +491,7 @@ class MenuItem implements ArrayableContract
      */
     public function getInactiveAttribute()
     {
-        return array_get($this->attributes, 'inactive');
+        return Arr::get($this->attributes, 'inactive');
     }
 
     /**
@@ -566,7 +568,7 @@ class MenuItem implements ArrayableContract
 
     /**
      * Set hide condition for current menu item.
-     * 
+     *
      * @param  Closure
      * @return boolean
      */
@@ -579,7 +581,7 @@ class MenuItem implements ArrayableContract
 
     /**
      * Determine whether the menu item is hidden.
-     * 
+     *
      * @return boolean
      */
     public function hidden()

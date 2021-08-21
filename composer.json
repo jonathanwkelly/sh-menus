@@ -1,14 +1,6 @@
 {
   "name": "jonathanwkelly/sh-menus",
   "description": "Laravel Menus",
-  "keywords": [
-    "laravel",
-    "menus",
-    "pingpong",
-    "navigation",
-    "nav",
-    "bootstrap"
-  ],
   "license": "BSD-3-Clause",
   "authors": [
     {
